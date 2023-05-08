@@ -9,9 +9,10 @@ public class AddBook {
 	private String author;
 	private String description;
 	private String availability;
+	private String category;
 	
 	public AddBook(String id, String password, String isbn, String name, String author, String description,
-			String category, String availabilty) {
+			String category, String availability) {
 		super();
 		this.id = id;
 		this.password = password;
@@ -20,11 +21,12 @@ public class AddBook {
 		this.author = author;
 		this.description = description;
 		this.category = category;
+		this.availability = availability;
 	}
 	@Override
 	public String toString() {
 		return "AddBook [id=" + id + ", password=" + password + ", isbn=" + isbn + ", name=" + name + ", author="
-				+ author + ", description=" + description + ", category=" + category + "]";
+				+ author + ", description=" + description + ", category=" + category + ", availabilty=" + availability + "]";
 	}
 	public String getId() {
 		return id;
@@ -68,5 +70,14 @@ public class AddBook {
 	public void setCategory(String category) {
 		this.category = category;
 	}
-	private String category;
-}
+	
+	public String getAvailability() {
+		return availability;
+	}
+	public void setAvailabilty(String availability) {
+		this.availability = availability;
+	}
+
+	
+	}
+

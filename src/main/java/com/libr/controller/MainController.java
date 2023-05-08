@@ -1,10 +1,10 @@
 package com.libr.controller;
-import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,14 +15,15 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.libr.entity.Book;
 import com.libr.entity.Ticket;
 import com.libr.entity.User;
 import com.libr.pojos.AddBook;
-import com.libr.pojos.RegisterUser;
-import com.libr.pojos.RequestListPojo;
 import com.libr.pojos.Profile;
 import com.libr.pojos.RaiseTicket;
+import com.libr.pojos.RegisterUser;
+import com.libr.pojos.RequestListPojo;
 import com.libr.repo.BookRepository;
 import com.libr.repo.TicketRepository;
 import com.libr.repo.UserRepository;
@@ -40,17 +41,14 @@ public class MainController {
 	private TicketRepository ticketRepository;
 	
 	@PostMapping("/addbook")
-	public String addbook(@RequestBody AddBook addbook) throws JsonProcessingException {
+	public String addbook(@RequestBody AddBook addbook) throws JsonProcessingException{
 		if(userRepository.findById(addbook.getId()).isPresent())
 		{
 			ArrayList<String> isbnList =  Utilities.generateArray(userRepository.findById(addbook.getId()).get().getBookshelf());
 			if(isbnList.contains(addbook.getIsbn()))
 					{
-				
 						return "Book is already present in the bookself and book repository";
 					}
-			
-			
 			else
 				{
 					Book book = new Book();
@@ -60,7 +58,8 @@ public class MainController {
 					book.setAuthor(addbook.getAuthor());
 					book.setDescription(addbook.getDescription());
 					book.setAvailability("Available");
-					
+					book.setLibid("libid1");
+					book.setImgurl("imgurl1");
 					isbnList.add(addbook.getIsbn());
 					User user =  new User();
 					user = userRepository.findById(addbook.getId()).get();
@@ -307,7 +306,7 @@ public class MainController {
 		
 		int ticketId = ticketRepository.findByIsbn(isbn).getTicketid();
 		String strTicketId = Integer.toString(ticketId);
-		Ticket ticket = ticketRepository.findById(strTicketId).get();
+		//Ticket ticket = ticketRepository.findById(strTicketId).get();
 		ticketRepository.deleteById(strTicketId);
 		return "has been successfully deleted";
 		
@@ -350,6 +349,31 @@ public class MainController {
 		return updatedbookshelf;
 		
 	}
+	
+	@GetMapping("findbyname/{name}") 
+	public List<Book> findByName(@PathVariable String name){
+		
+		List<Book> book = bookRepository.findByName(name);
+		if(book.equals(null)) {
+			
+		}
+		else {
+			return book;
+		}
+		return null;
+	}
+	
+
+	
+	@GetMapping("findbookByAuthor/{author}")
+	public List<Book> findByAuthor(@PathVariable String author){
+		
+		List<Book> book = bookRepository.findBookByAuthor(author);
+		
+		return book;
+	}
+	
+	
 	
 	
 	

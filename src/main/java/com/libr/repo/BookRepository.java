@@ -10,6 +10,16 @@ import com.libr.entity.Book;
 public interface BookRepository extends JpaRepository<Book, String>{
 	
 	public List<Book> findByCategory(String category);
+
+	public List<Book> findByName(String name);
+
+	
+
+	public List<Book> findBookByAuthor(String author);
+	
+	
+
+
 	
 
 }
